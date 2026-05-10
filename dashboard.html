@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | Midnight</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #000; --panel: #0a0a0a; --text: #ededed; --muted: #888; --border: #222; }
+        body { margin: 0; font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); }
+        
+        /* Top Navigation */
+        nav { border-bottom: 1px solid var(--border); background: var(--bg); padding: 0 2rem; height: 64px; display: flex; align-items: center; justify-content: space-between; }
+        .nav-brand { font-weight: 700; font-size: 1.1rem; letter-spacing: -0.02em; display: flex; align-items: center; gap: 10px; }
+        .nav-brand::before { content: ''; width: 12px; height: 12px; background: #fff; border-radius: 2px; }
+        .nav-links a { color: var(--muted); text-decoration: none; margin-left: 20px; font-size: 0.9rem; font-weight: 500; transition: 0.2s; }
+        .nav-links a:hover { color: #fff; }
+        
+        .profile-menu { display: flex; align-items: center; gap: 12px; cursor: pointer; }
+        .avatar { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; border: 1px solid var(--border); background: #111; }
+        
+        /* Main Layout */
+        .container { max-width: 1200px; margin: 0 auto; padding: 3rem 2rem; }
+        .header { margin-bottom: 3rem; display: flex; justify-content: space-between; align-items: flex-end; }
+        h1 { margin: 0 0 8px 0; font-size: 2rem; font-weight: 600; letter-spacing: -0.03em; }
+        .subtitle { color: var(--muted); margin: 0; font-size: 0.95rem; }
+        
+        .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text); padding: 8px 16px; border-radius: 6px; font-size: 0.85rem; font-weight: 500; cursor: pointer; transition: 0.2s; }
+        .btn-outline:hover { background: rgba(255,255,255,0.05); }
+
+        /* Metric Grid */
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
+        .card { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 24px; display: flex; flex-direction: column; }
+        .card-label { font-size: 0.85rem; color: var(--muted); font-weight: 500; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+        .card-value { font-size: 1.5rem; font-weight: 600; color: #fff; }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-brand">Midnight</div>
+        <div style="display: flex; align-items: center;">
+            <div class="nav-links" style="margin-right: 30px;">
+                <a href="#" style="color: #fff;">Overview</a>
+                <a href="#">Integrations</a>
+                <a href="#">Settings</a>
+            </div>
+            <div class="profile-menu">
+                <span id="navUsername" style="font-size: 0.9rem; font-weight: 500;">...</span>
+                <img id="navAvatar" src="" class="avatar" style="display: none;">
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="header">
+            <div>
+                <h1>Overview</h1>
+                <p class="subtitle">Welcome back, <span id="welcomeName" style="color: #fff; font-weight: 500;">...</span></p>
+            </div>
+            <button onclick="logout()" class="btn-outline">Log Out</button>
+        </div>
+
+        <div class="grid">
+            <div class="card">
+                <span class="card-label">Node Location</span>
+                <span class="card-value" id="addressDisplay">...</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const user = sessionStorage.getItem('loggedInUser');
+        if(!user) { 
+            window.location.href = 'login.html'; 
+        } else {
+            const data = JSON.parse(localStorage.getItem('user_' + user));
+            document.getElementById('navUsername').innerText = data.username;
+            document.getElementById('welcomeName').innerText = data.username;
+            document.getElementById('addressDisplay').innerText = data.address;
+            
+            if(data.profilePic) {
+                const avatar = document.getElementById('navAvatar');
+                avatar.src = data.profilePic;
+                avatar.style.display = 'block';
+            }
+        }
+
+        function logout() { 
+            sessionStorage.removeItem('loggedInUser'); 
+            window.location.href = 'login.html'; 
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Midnight | Standard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #000; --text: #ededed; --muted: #888; --border: #222; }
+        body { margin: 0; font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        .spotlight { position: absolute; top: -20%; left: 50%; transform: translateX(-50%); width: 80vw; height: 50vh; background: radial-gradient(ellipse at top, rgba(255,255,255,0.08) 0%, transparent 70%); z-index: -1; }
+        .container { text-align: center; max-width: 600px; padding: 2rem; }
+        .badge { display: inline-block; padding: 6px 12px; border-radius: 20px; border: 1px solid var(--border); background: rgba(255,255,255,0.03); font-size: 0.85rem; color: var(--muted); margin-bottom: 2rem; }
+        h1 { font-size: 4rem; font-weight: 700; letter-spacing: -0.04em; margin: 0 0 1rem 0; line-height: 1.1; }
+        p { color: var(--muted); font-size: 1.1rem; line-height: 1.6; margin-bottom: 3rem; }
+        .btn-group { display: flex; gap: 1rem; justify-content: center; }
+        .btn { padding: 12px 24px; border-radius: 8px; font-weight: 500; text-decoration: none; transition: 0.2s; font-size: 0.95rem; }
+        .btn-primary { background: #fff; color: #000; border: 1px solid #fff; }
+        .btn-primary:hover { background: #e5e5e5; }
+        .btn-secondary { background: transparent; color: #fff; border: 1px solid var(--border); }
+        .btn-secondary:hover { background: rgba(255,255,255,0.05); }
+    </style>
+</head>
+<body>
+    <div class="spotlight"></div>
+    <div class="container">
+        <div class="badge">Midnight System v3.0</div>
+        <h1>The new standard for local nodes.</h1>
+        <p>A beautifully designed, local-first authentication environment built for speed, security, and absolute privacy.</p>
+        <div class="btn-group">
+            <a href="login.html" class="btn btn-primary">Start Session</a>
+            <a href="register.html" class="btn btn-secondary">Create Identity</a>
+        </div>
+    </div>
+</body>
+</html>
