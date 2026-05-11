@@ -2,93 +2,75 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard | Midnight</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        :root { --bg: #000; --panel: #0a0a0a; --text: #ededed; --muted: #888; --border: #222; }
-        body { margin: 0; font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); }
-        
-        /* Top Navigation */
-        nav { border-bottom: 1px solid var(--border); background: var(--bg); padding: 0 2rem; height: 64px; display: flex; align-items: center; justify-content: space-between; }
-        .nav-brand { font-weight: 700; font-size: 1.1rem; letter-spacing: -0.02em; display: flex; align-items: center; gap: 10px; }
-        .nav-brand::before { content: ''; width: 12px; height: 12px; background: #fff; border-radius: 2px; }
-        .nav-links a { color: var(--muted); text-decoration: none; margin-left: 20px; font-size: 0.9rem; font-weight: 500; transition: 0.2s; }
-        .nav-links a:hover { color: #fff; }
-        
-        .profile-menu { display: flex; align-items: center; gap: 12px; cursor: pointer; }
-        .avatar { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; border: 1px solid var(--border); background: #111; }
-        
-        /* Main Layout */
-        .container { max-width: 1200px; margin: 0 auto; padding: 3rem 2rem; }
-        .header { margin-bottom: 3rem; display: flex; justify-content: space-between; align-items: flex-end; }
-        h1 { margin: 0 0 8px 0; font-size: 2rem; font-weight: 600; letter-spacing: -0.03em; }
-        .subtitle { color: var(--muted); margin: 0; font-size: 0.95rem; }
-        
-        .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text); padding: 8px 16px; border-radius: 6px; font-size: 0.85rem; font-weight: 500; cursor: pointer; transition: 0.2s; }
-        .btn-outline:hover { background: rgba(255,255,255,0.05); }
-
-        /* Metric Grid */
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
-        .card { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 24px; display: flex; flex-direction: column; }
-        .card-label { font-size: 0.85rem; color: var(--muted); font-weight: 500; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
-        .card-value { font-size: 1.5rem; font-weight: 600; color: #fff; }
+        body { background-color: #050505; color: #fff; font-family: 'Outfit', sans-serif; display: flex; min-height: 100vh; margin: 0; }
+        .sidebar-container { padding: 20px; width: 280px; }
+        .sidebar { background: #111111; border: 1px solid #222; border-radius: 20px; height: 100%; padding: 30px 20px; display: flex; flex-direction: column; }
+        .brand { font-size: 1.8rem; font-weight: 800; background: linear-gradient(to right, #38bdf8, #a855f7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 40px; text-align: center; }
+        .user-widget { background: #1a1a1a; border-radius: 15px; padding: 15px; display: flex; align-items: center; gap: 15px; border: 1px solid #333; margin-top: auto; }
+        .profile-img { width: 50px; height: 50px; border-radius: 12px; object-fit: cover; }
+        .main-content { flex: 1; padding: 40px; overflow-y: auto; }
+        .data-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        .dark-panel { background: #111111; border: 1px solid #222; border-radius: 20px; padding: 25px; position: relative; overflow: hidden; }
+        .dark-panel::after { content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: #38bdf8; }
+        .dark-panel.panel-purple::after { background: #a855f7; }
+        .panel-label { color: #6b7280; font-size: 0.75rem; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 10px; display: block; }
+        .panel-value { font-size: 1.2rem; font-weight: 500; color: #e5e7eb; }
+        .logout-btn { background: transparent; color: #f87171; border: 1px solid #451a1a; padding: 10px; border-radius: 10px; margin-top: 15px; width: 100%; }
     </style>
 </head>
 <body>
-    <nav>
-        <div class="nav-brand">Midnight</div>
-        <div style="display: flex; align-items: center;">
-            <div class="nav-links" style="margin-right: 30px;">
-                <a href="#" style="color: #fff;">Overview</a>
-                <a href="#">Integrations</a>
-                <a href="#">Settings</a>
+    <div class="sidebar-container">
+        <div class="sidebar">
+            <div class="brand">MIDNIGHT</div>
+            <div class="user-widget">
+                <img id="profileImage" src="" class="profile-img">
+                <div>
+                    <p class="user-name mb-0" id="userNameDisplay">...</p>
+                    <span style="font-size: 0.7rem; color: #10b981;">● Online</span>
+                </div>
             </div>
-            <div class="profile-menu">
-                <span id="navUsername" style="font-size: 0.9rem; font-weight: 500;">...</span>
-                <img id="navAvatar" src="" class="avatar" style="display: none;">
-            </div>
+            <button onclick="logout()" class="logout-btn">Terminate Session</button>
         </div>
-    </nav>
-
-    <div class="container">
-        <div class="header">
-            <div>
-                <h1>Overview</h1>
-                <p class="subtitle">Welcome back, <span id="welcomeName" style="color: #fff; font-weight: 500;">...</span></p>
+    </div>
+    <div class="main-content">
+        <h1 class="welcome-text mb-4">Identity Matrix: <span id="welcomeName" style="color:#38bdf8;">...</span></h1>
+        <div class="data-grid">
+            <div class="dark-panel">
+                <span class="panel-label">Origin & Timeline</span>
+                <div class="panel-value">
+                    <span id="birthdate" style="display:block; font-size: 1.1rem; color:#38bdf8;"></span>
+                    <span id="birthplace" style="font-size: 0.9rem; color:#9ca3af;"></span>
+                </div>
             </div>
-            <button onclick="logout()" class="btn-outline">Log Out</button>
-        </div>
-
-        <div class="grid">
-            <div class="card">
-                <span class="card-label">Node Location</span>
-                <span class="card-value" id="addressDisplay">...</span>
+            <div class="dark-panel panel-purple">
+                <span class="panel-label">Educational Credentials</span>
+                <div id="education" class="panel-value">...</div>
+            </div>
+            <div class="dark-panel">
+                <span class="panel-label">Node Location</span>
+                <div id="address" class="panel-value">...</div>
             </div>
         </div>
     </div>
-
     <script>
         const user = sessionStorage.getItem('loggedInUser');
-        if(!user) { 
-            window.location.href = 'login.html'; 
-        } else {
-            const data = JSON.parse(localStorage.getItem('user_' + user));
-            document.getElementById('navUsername').innerText = data.username;
+        if(!user) window.location.href = 'login.html';
+        
+        const data = JSON.parse(localStorage.getItem('user_' + user));
+        if(data) {
+            document.getElementById('userNameDisplay').innerText = data.username;
             document.getElementById('welcomeName').innerText = data.username;
-            document.getElementById('addressDisplay').innerText = data.address;
-            
-            if(data.profilePic) {
-                const avatar = document.getElementById('navAvatar');
-                avatar.src = data.profilePic;
-                avatar.style.display = 'block';
-            }
+            document.getElementById('birthdate').innerText = "DOB: " + data.birthdate;
+            document.getElementById('birthplace').innerText = "POB: " + data.birthplace;
+            document.getElementById('education').innerText = data.education;
+            document.getElementById('address').innerText = data.address;
+            document.getElementById('profileImage').src = data.profilePic;
         }
-
-        function logout() { 
-            sessionStorage.removeItem('loggedInUser'); 
-            window.location.href = 'login.html'; 
-        }
+        function logout() { sessionStorage.removeItem('loggedInUser'); window.location.href = 'login.html'; }
     </script>
 </body>
 </html>
