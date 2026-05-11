@@ -2,58 +2,48 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login | Midnight</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        :root { --bg: #000; --panel: #0a0a0a; --text: #ededed; --muted: #888; --border: #222; }
-        body { margin: 0; font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); height: 100vh; display: flex; align-items: center; justify-content: center; }
-        .auth-box { background: var(--panel); border: 1px solid var(--border); width: 100%; max-width: 380px; padding: 40px; border-radius: 12px; box-shadow: 0 20px 40px rgba(0,0,0,0.5); }
-        h2 { margin: 0 0 8px 0; font-size: 1.5rem; font-weight: 600; letter-spacing: -0.02em; }
-        p.subtitle { color: var(--muted); font-size: 0.9rem; margin-bottom: 30px; }
-        .form-group { margin-bottom: 20px; }
-        label { display: block; font-size: 0.85rem; color: var(--muted); margin-bottom: 8px; font-weight: 500; }
-        input { width: 100%; background: #000; border: 1px solid var(--border); color: #fff; padding: 12px; border-radius: 8px; font-family: inherit; font-size: 0.95rem; box-sizing: border-box; outline: none; transition: 0.2s; }
-        input:focus { border-color: #555; }
-        .btn-submit { width: 100%; background: #fff; color: #000; border: none; padding: 12px; border-radius: 8px; font-weight: 600; cursor: pointer; margin-top: 10px; transition: 0.2s; }
-        .btn-submit:hover { background: #e5e5e5; }
-        .footer-link { display: block; text-align: center; margin-top: 24px; color: var(--muted); text-decoration: none; font-size: 0.85rem; }
-        .footer-link:hover { color: #fff; }
-        .alert-error { padding: 10px; border-radius: 6px; font-size: 0.85rem; margin-bottom: 20px; background: rgba(239, 68, 68, 0.1); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.2); display: none; }
+        body { font-family: 'Outfit', sans-serif; background-color: #050505; min-height: 100vh; display: flex; align-items: center; justify-content: center; margin: 0; }
+        .dark-card { background: #111111; border: 1px solid #222; border-radius: 16px; padding: 50px 40px; width: 100%; max-width: 420px; position: relative; }
+        .dark-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(to right, #38bdf8, #a855f7); border-radius: 16px 16px 0 0; }
+        .form-control { background: #1a1a1a; border: 1px solid #333; color: #fff; padding: 12px; margin-bottom: 20px; }
+        label { color: #9ca3af; font-size: 0.85rem; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px; display: block; }
+        .btn-submit { background: #fff; color: #000; border: none; padding: 14px; border-radius: 10px; font-weight: 600; width: 100%; }
     </style>
 </head>
 <body>
-    <div class="auth-box">
-        <h2>Welcome back</h2>
-        <p class="subtitle">Enter your credentials to access the system.</p>
-        <div id="errorMsg" class="alert-error"></div>
+    <div class="dark-card">
+        <h3 class="text-white fw-bold mb-4">Sign In</h3>
+        <div id="errorMsg" class="alert alert-danger d-none p-2 text-center small border-0 bg-danger text-white"></div>
         <form id="loginForm">
-            <div class="form-group">
-                <label>Username</label>
-                <input type="text" id="username" required>
-            </div>
-            <div class="form-group">
-                <label>Password</label>
-                <input type="password" id="password" required>
-            </div>
-            <button type="submit" class="btn-submit">Sign In</button>
+            <label>Username</label>
+            <input type="text" id="username" class="form-control" required>
+            <label>Password</label>
+            <input type="password" id="password" class="form-control" required>
+            <button type="submit" class="btn btn-submit">ACCESS SYSTEM</button>
         </form>
-        <a href="register.html" class="footer-link">Don't have an account? Sign up →</a>
     </div>
-
     <script>
         document.getElementById('loginForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            const u = document.getElementById('username').value, p = document.getElementById('password').value;
-            const err = document.getElementById('errorMsg');
-            const data = JSON.parse(localStorage.getItem('user_' + u) || '{}');
-            
-            if (data.password === p) {
-                sessionStorage.setItem('loggedInUser', u);
-                window.location.href = 'dashboard.html';
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const savedData = localStorage.getItem('user_' + username);
+
+            if (savedData) {
+                const user = JSON.parse(savedData);
+                if (user.password === password) {
+                    sessionStorage.setItem('loggedInUser', username);
+                    window.location.href = 'dashboard.html';
+                } else {
+                    document.getElementById('errorMsg').innerText = "Incorrect password.";
+                    document.getElementById('errorMsg').classList.remove('d-none');
+                }
             } else {
-                err.innerText = "Invalid username or password.";
-                err.style.display = 'block';
+                document.getElementById('errorMsg').innerText = "Account not found.";
+                document.getElementById('errorMsg').classList.remove('d-none');
             }
         });
     </script>
