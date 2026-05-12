@@ -2,75 +2,100 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard | Midnight</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body { background-color: #050505; color: #fff; font-family: 'Outfit', sans-serif; display: flex; min-height: 100vh; margin: 0; }
-        .sidebar-container { padding: 20px; width: 280px; }
-        .sidebar { background: #111111; border: 1px solid #222; border-radius: 20px; height: 100%; padding: 30px 20px; display: flex; flex-direction: column; }
-        .brand { font-size: 1.8rem; font-weight: 800; background: linear-gradient(to right, #38bdf8, #a855f7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 40px; text-align: center; }
-        .user-widget { background: #1a1a1a; border-radius: 15px; padding: 15px; display: flex; align-items: center; gap: 15px; border: 1px solid #333; margin-top: auto; }
-        .profile-img { width: 50px; height: 50px; border-radius: 12px; object-fit: cover; }
+        .sidebar { width: 280px; background: #111; padding: 30px; border-right: 1px solid #222; display: flex; flex-direction: column; }
         .main-content { flex: 1; padding: 40px; overflow-y: auto; }
-        .data-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
-        .dark-panel { background: #111111; border: 1px solid #222; border-radius: 20px; padding: 25px; position: relative; overflow: hidden; }
-        .dark-panel::after { content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: #38bdf8; }
-        .dark-panel.panel-purple::after { background: #a855f7; }
-        .panel-label { color: #6b7280; font-size: 0.75rem; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 10px; display: block; }
-        .panel-value { font-size: 1.2rem; font-weight: 500; color: #e5e7eb; }
-        .logout-btn { background: transparent; color: #f87171; border: 1px solid #451a1a; padding: 10px; border-radius: 10px; margin-top: 15px; width: 100%; }
+        .brand { font-size: 1.5rem; font-weight: 800; background: linear-gradient(to right, #38bdf8, #a855f7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 40px; }
+        .profile-pic { width: 100px; height: 100px; border-radius: 15px; object-fit: cover; border: 2px solid #38bdf8; margin-bottom: 20px; }
+        .info-card { background: #111; border: 1px solid #222; border-radius: 15px; padding: 25px; margin-bottom: 20px; }
+        .info-card h5 { color: #38bdf8; font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 15px; border-bottom: 1px solid #222; padding-bottom: 5px; }
+        .data-row { display: flex; justify-content: space-between; margin-bottom: 10px; border-bottom: 1px solid #1a1a1a; padding-bottom: 5px; }
+        .data-label { color: #6b7280; font-size: 0.85rem; }
+        .data-value { color: #e5e7eb; font-weight: 500; }
+        .btn-logout { background: #451a1a; color: #f87171; border: 1px solid #f87171; width: 100%; margin-top: auto; padding: 10px; border-radius: 8px; }
     </style>
 </head>
 <body>
-    <div class="sidebar-container">
-        <div class="sidebar">
-            <div class="brand">MIDNIGHT</div>
-            <div class="user-widget">
-                <img id="profileImage" src="" class="profile-img">
-                <div>
-                    <p class="user-name mb-0" id="userNameDisplay">...</p>
-                    <span style="font-size: 0.7rem; color: #10b981;">● Online</span>
-                </div>
-            </div>
-            <button onclick="logout()" class="logout-btn">Terminate Session</button>
-        </div>
+    <div class="sidebar">
+        <div class="brand">MIDNIGHT NODE</div>
+        <img id="displayPic" src="" class="profile-pic">
+        <h4 id="displayUser">...</h4>
+        <p class="text-success small">● Active Session</p>
+        <button onclick="sessionStorage.clear(); window.location.href='login.html'" class="btn-logout">Terminate Session</button>
     </div>
+
     <div class="main-content">
-        <h1 class="welcome-text mb-4">Identity Matrix: <span id="welcomeName" style="color:#38bdf8;">...</span></h1>
-        <div class="data-grid">
-            <div class="dark-panel">
-                <span class="panel-label">Origin & Timeline</span>
-                <div class="panel-value">
-                    <span id="birthdate" style="display:block; font-size: 1.1rem; color:#38bdf8;"></span>
-                    <span id="birthplace" style="font-size: 0.9rem; color:#9ca3af;"></span>
+        <h2 class="mb-4">Identity Overview</h2>
+        
+        <div class="row">
+            <div class="col-md-6">
+                <div class="info-card">
+                    <h5>Personal Profile</h5>
+                    <div class="data-row"><span class="data-label">Full Name</span><span class="data-value" id="dFullname">...</span></div>
+                    <div class="data-row"><span class="data-label">Age</span><span class="data-value" id="dAge">...</span></div>
+                    <div class="data-row"><span class="data-label">Date of Birth</span><span class="data-value" id="dDob">...</span></div>
+                    <div class="data-row"><span class="data-label">Sex</span><span class="data-value" id="dSex">...</span></div>
+                    <div class="data-row"><span class="data-label">Civil Status</span><span class="data-value" id="dStatus">...</span></div>
+                    <div class="data-row"><span class="data-label">Place of Birth</span><span class="data-value" id="dPob">...</span></div>
+                    <div class="data-row"><span class="data-label">Home Address</span><span class="data-value" id="dAddress">...</span></div>
+                </div>
+                <div class="info-card">
+                    <h5>Communication Channels</h5>
+                    <div class="data-row"><span class="data-label">Phone</span><span class="data-value" id="dPhone">...</span></div>
+                    <div class="data-row"><span class="data-label">Email</span><span class="data-value" id="dEmail">...</span></div>
                 </div>
             </div>
-            <div class="dark-panel panel-purple">
-                <span class="panel-label">Educational Credentials</span>
-                <div id="education" class="panel-value">...</div>
-            </div>
-            <div class="dark-panel">
-                <span class="panel-label">Node Location</span>
-                <div id="address" class="panel-value">...</div>
+
+            <div class="col-md-6">
+                <div class="info-card" style="border-left: 4px solid #a855f7;">
+                    <h5>Academic History</h5>
+                    <div class="data-row"><span class="data-label">College</span><span class="data-value" id="dCollege">...</span></div>
+                    <div class="data-row"><span class="data-label">Course</span><span class="data-value" id="dCourse">...</span></div>
+                    <hr style="border-color:#333">
+                    <div class="data-row"><span class="data-label">Senior High</span><span class="data-value" id="dShs">...</span></div>
+                    <div class="data-row"><span class="data-label">SHS Year</span><span class="data-value" id="dShsY">...</span></div>
+                    <hr style="border-color:#333">
+                    <div class="data-row"><span class="data-label">Junior High</span><span class="data-value" id="dJhs">...</span></div>
+                    <div class="data-row"><span class="data-label">JHS Year</span><span class="data-value" id="dJhsY">...</span></div>
+                    <hr style="border-color:#333">
+                    <div class="data-row"><span class="data-label">Elementary</span><span class="data-value" id="dElem">...</span></div>
+                    <div class="data-row"><span class="data-label">Elem Year</span><span class="data-value" id="dElemY">...</span></div>
+                </div>
             </div>
         </div>
     </div>
+
     <script>
-        const user = sessionStorage.getItem('loggedInUser');
-        if(!user) window.location.href = 'login.html';
-        
-        const data = JSON.parse(localStorage.getItem('user_' + user));
-        if(data) {
-            document.getElementById('userNameDisplay').innerText = data.username;
-            document.getElementById('welcomeName').innerText = data.username;
-            document.getElementById('birthdate').innerText = "DOB: " + data.birthdate;
-            document.getElementById('birthplace').innerText = "POB: " + data.birthplace;
-            document.getElementById('education').innerText = data.education;
-            document.getElementById('address').innerText = data.address;
-            document.getElementById('profileImage').src = data.profilePic;
+        const userKey = sessionStorage.getItem('loggedInUser');
+        if (!userKey) window.location.href = 'login.html';
+        const data = JSON.parse(localStorage.getItem('user_' + userKey));
+
+        if (data) {
+            document.getElementById('displayPic').src = data.profilePic;
+            document.getElementById('displayUser').innerText = data.username;
+            document.getElementById('dFullname').innerText = data.fullname;
+            document.getElementById('dAge').innerText = data.age;
+            document.getElementById('dDob').innerText = data.dob;
+            document.getElementById('dSex').innerText = data.sex;
+            document.getElementById('dStatus').innerText = data.civilStatus;
+            document.getElementById('dPob').innerText = data.pob;
+            document.getElementById('dAddress').innerText = data.address;
+            document.getElementById('dPhone').innerText = data.phone;
+            document.getElementById('dEmail').innerText = data.email;
+            document.getElementById('dCollege').innerText = data.college || "N/A";
+            document.getElementById('dCourse').innerText = data.course || "N/A";
+            document.getElementById('dShs').innerText = data.shs || "N/A";
+            document.getElementById('dShsY').innerText = data.shsYear || "N/A";
+            document.getElementById('dJhs').innerText = data.jhs || "N/A";
+            document.getElementById('dJhsY').innerText = data.jhsYear || "N/A";
+            document.getElementById('dElem').innerText = data.elem || "N/A";
+            document.getElementById('dElemY').innerText = data.elemYear || "N/A";
         }
-        function logout() { sessionStorage.removeItem('loggedInUser'); window.location.href = 'login.html'; }
     </script>
 </body>
 </html>
